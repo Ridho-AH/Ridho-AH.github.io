@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'files/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+	<link rel="stylesheet" href="{% static 'font-awesome.css' %}">
+	
+    
+    <title>GraciouScent</title>
+</head>
+<style>
+	.content .ifr {
+		position: relative;
+		width: 500px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	footer
+    {
+        background: #fff;
+        font-weight: 400;
+        text-align: center;
+        padding: 20px;
+    }
+	.product-list {
+		display: flex;
+		flex-wrap: wrap; /* Allow items to wrap to the next row if necessary */
+		
+		list-style: none; /* Remove list styles */
+		padding: 0;
+	}
+
+	.product-item {
+		
+		max-width: 50%; /* Limit item width to avoid overcrowding */
+		margin: 30px; /* Add spacing between items */
+		border: 1px solid #ccc; /* Add a border for visual separation */
+		padding: 10px;
+		text-align: center;
+	}
+
+	/* Style the "Buy Now" button */
+	.read-more-button {
+		display: inline-block;
+		margin-top: 10px;
+		background-color: #007bff;
+		color: #fff;
+		text-decoration: none;
+		padding: 5px 10px;
+		border-radius: 5px;
+	}
+	
+</style>
+<body>
+    
+	<header style="background: #fff;">
+		<a href="{% url 'landing' %}"><img src="{% static 'files/default.png' %}" class="logo" style="margin-top: 10px; height: 50px"></a>
+		<div class="toggle"></div>
+		<ul class="navigation">
+			<li><a href="{% url 'landing' %}" style="color: var(--blue);">Home</a></li>
+			<li><a href="{% url 'product' %}" style="color: var(--blue);">Produk</a></li>
+			<li><a href="{% url 'login' %}" style="color: var(--blue);">GraciouScent</a></li>
+			<li><span class="themeSwitch"></span></li>
+		</ul>
+	</header>
+
+	<div class="container">
+		{% block content %}{% endblock content %}
+	</div>
+	
+	<footer>
+		<div class="container">
+			<div class="row">
+				<p>Copyright © 2025 GraciouScent</p>
+			</div>
+		</div>
+	</footer>
+
+    <script src="{% static 'app.js' %}"></script>
+</body>
+</html>

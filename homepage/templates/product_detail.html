@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block title %} Detail Produk {% endblock title %}
+
+
+{% block content %}
+
+        <section style="padding: 150px;">
+			<div class="content">
+				<div class="textBox">
+					<div class="textBox" style="font-size: 50%;">
+						<h2>Detail Produk<br><span>{{ product.name }}</span></h2>
+					</div>
+					<img src="{{ product.photo.url }}" alt="{{ product.name }}" width="360"><br>
+					
+				</div>
+				<div class="textBox">
+					<h2><span>{{ product.name }}</span></h2>
+					<p>{{ product.description }}</p>
+					{% if product.discount != 0 %}
+						<p>Harga: Rp. <s>{{ product.price }}</s> {{ product.get_actual_price }}</p>
+					{% else %}
+						<p>Harga: Rp. {{ product.price }}</p>
+					{% endif %}
+					<a href="{{ product.get_purchase }}" target="_blank" class="read-more-button">Beli Sekarang</a>
+				</div>
+			</div>
+		</section>
+		
+
+
+{% endblock content %}

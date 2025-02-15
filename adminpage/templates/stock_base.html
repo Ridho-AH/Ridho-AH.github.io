@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="image/png" href="{% static 'files/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dialogbox.css' %}">
+
+    <title>GraciouScent{% block title %}Title Missing{% endblock title %}</title>
+
+</head>
+
+<body>
+
+    <div id="dialogoverlay"></div>
+    <div id="dialogbox">
+        <div class="align-middle">
+            <div id="dialogboxhead"></div>
+            <div id="dialogboxbody"></div>
+            <div id="dialogboxfoot"></div>
+        </div>
+    </div>
+
+    <main id="wrapper">
+	<style>
+	#sideb1 {
+	  width: 250px;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  height: 100vh;
+	  z-index: 999;
+	  background: #4e7065;
+	  color: #fff;
+	  transition: all 0.3s;
+	  overflow-y: auto;
+	  overflow-x: hidden;
+	}
+	
+	.btn1{
+	  padding: 10px;
+	  font-size: 1.1em;
+	  display: block;
+	  background:#2d4386
+	}
+	
+	.btn1:hover{
+	  color: #608b7d;
+	  background: #fff;
+	}
+	
+	.botleft {
+	  bottom: 0;
+	  float: left; 
+	  min-width: 250px;
+	  max-width: 250px;
+	}
+	</style>
+    {% if user.is_authenticated %}
+    
+        <nav id="sideb1" style="background-color:#334d99">
+            
+            <div class="sidebar-header" style="background-color:#3956ac">
+                <a class="navbar-brand titlefont mr-4" href="{% url 'stock' %}"><h3>GraciouScent </h3></a>
+            </div>
+
+            <ul class="list-unstyled sidebar-components" style="background-color:#334d99">
+                {# <p class="sidebar-paragraph">Dummy Heading</p> #}
+                <li> 
+                    <a class="sidebar-text sidebar-button" href="{% url 'stock' %}"><i class="fas fa-boxes"></i> Daftar Stok</a>
+                </li>               
+                <li>
+                    <a class="sidebar-text sidebar-button" href="{% url 'new-stock' %}"><i class="fas fa-dolly-flatbed"></i> Tambah Stok</a>
+                </li>
+                <li>
+                    <a class="sidebar-text sidebar-button" href="{% url 'guide' %}"><i class="fas fa-info-circle"></i> Petunjuk</a>
+                </li>
+				<li>
+                    <a class="sidebar-text sidebar-button" href="{% url 'landing' %}"><i class="fas fa-home"></i> Kembali ke Home</a>
+                </li>
+				<li>
+                    <a class="sidebar-text sidebar-button" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+
+        </nav>
+    
+        <div id="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}"> {{ message }} </div>
+                        {% endfor %}
+                    {% endif %}
+                
+    {% endif %} 
+
+                    <div class="container">
+                        {% block content %}{% endblock content %}
+                    </div>
+                    
+                </div>
+            </div>
+            <br>
+
+        </div>
+    
+    </main>    
+
+    <script src="{% static 'bootstrap/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>

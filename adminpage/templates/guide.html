@@ -1,0 +1,37 @@
+{% extends "stock_base.html" %}
+{% load static %}
+
+{% block title %} Petunjuk {% endblock title %}
+
+
+{% block content %}
+    
+    {% if not user.is_authenticated  %}
+        <br>
+        <a href="{% url 'landing' %}" class="btn btn-secondary">Kembali</a>
+    {% endif %}    
+    
+    <div class="align-middle" style="color: #4c50af; font-style: bold; font-size: 3rem;"><b>GraciouScent</b></div>
+    <div class="align-middle" style="color: rgb(73, 73, 73)"><b>Aplikasi Web Manajemen Stok Produk</b></div>
+    <br><br>
+
+    <div class="align-middle"> 
+        <h2 style="color:#4c50af"><b>| Tentang |</b></h3> <br>
+            <p>
+                GraciouScent merupakan aplikasi web untuk manajemen inventori stok produk yang akan ditampilkan pada halaman depan/utama web.<br>
+                GraciouScent dapat membantu dalam mengelola dan memperbarui informasi stok produk yang hendak dipasarkan/dipromosikan pada web.<br>
+                Aplikasi GraciouScent juga dapat berperan membantu dalam pemantauan riwayat waktu perubahan data/informasi produk dilakukan.
+            </p>
+        <br><br>
+    </div>
+        <h2 style="color:#4c50af" class="align-middle"><b>| Fitur |</b></h3> <br>
+            <ul style="display:table; margin:0 auto; ">
+                <li style="color:#494949;">Menampilkan daftar stok produk yang ada</li>
+                <li style="color:#494949;">Menambahkan stok produk baru</li>
+                <li style="color:#494949;">Mengubah data/informasi stok produk yang ada</li>
+				<li style="color:#494949;">Menghapus data/informasi stok produk yang ada</li>
+                <li style="color:#494949;">Merekam informasi waktu kapan stok produk dibuat dan terakhir diubah</li>
+            </ul>  
+        <br><br>
+
+{% endblock content %}

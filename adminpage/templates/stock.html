@@ -1,0 +1,107 @@
+{% extends "stock_base.html" %}
+
+{% load widget_tweaks %}
+
+
+{% block title %} Daftar Stok Produk {% endblock title %}
+
+{% block content %}
+    
+    <div class="row" style="color: #4e4e4e; font-style: bold; font-size: 3rem; ">
+        <div class="col-md-8">Daftar Stok Produk</div>
+		<div class="col-md-4">               
+            <div style="float:right;"> <a class="fa fa-plus-square" style="color:blue;" href="{% url 'new-stock' %}"></a> </div>
+        </div>
+    </div>
+    
+    <div style="border-bottom: 1px solid white;"></div>
+    
+    <br>
+
+    <table class="table table-css table-bordered table-hover">
+
+        <form method="get">
+            <div class="input-group search">
+				<form action="">
+					<input type="text" class="input-group-append" style="width:90%" name="search" placeholder=" Cari berdasarkan nama" value="{{request.GET.search}}">
+					<button type="submit" class="btn btn-primary fa fa-search" style="width:10%"></button>
+				</form>
+            </div>
+        </form>
+
+        <br>
+        
+        <thead class="thead-dark align-middle">
+            <tr>
+                <th style="vertical-align:middle" width="14%">Nama <a href="?search={{ search|default_if_none:'' }}&order_by=name&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=name&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+				<th style="vertical-align:middle" width="12%">Foto </th>
+                <th style="vertical-align:middle" width="18%">Deskripsi <a href="?search={{ search|default_if_none:'' }}&order_by=description&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=description&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+				<th style="vertical-align:middle" width="12%">Harga <a href="?search={{ search|default_if_none:'' }}&order_by=price&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=price&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+				<th style="vertical-align:middle" width="12%">Diskon <a href="?search={{ search|default_if_none:'' }}&order_by=discount&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=discount&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+				<th style="vertical-align:middle" width="12%">Ditambahkan pada <a href="?search={{ search|default_if_none:'' }}&order_by=created_at&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=created_at&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+				<th style="vertical-align:middle" width="12%">Diperbarui pada <a href="?search={{ search|default_if_none:'' }}&order_by=updated_at&direction=asc" class="fa fa-arrow-up" style="color:blue;"></a><a href="?search={{ search|default_if_none:'' }}&order_by=updated_at&direction=desc" class="fa fa-arrow-down" style="color:blue;"></a></th>
+                <th style="vertical-align:middle" width="8%">Aksi</th>
+            </tr>
+        </thead>
+                  
+{% if all_stock %}
+
+        <tbody>
+            {% for stock in all_stock %}
+                <tr>
+                    <td class="align-middle">
+                        {{ stock.name }}
+                    </td>
+					<td class="align-middle">
+                        <img src="{{ stock.photo.url }}" alt="{{ stock.name }}" style="max-height: 50px; max-width: 50px">
+                    </td>
+					<td class="align-middle">
+                        {{ stock.description }}
+                    </td>
+					<td class="align-middle">{{ stock.price }}</td>
+					<td class="align-middle">{{ stock.discount }}</td>
+                    <td class="align-middle">{{ stock.created_at }}</td>
+					<td class="align-middle">{{ stock.updated_at }}</td>
+                    <td class="align-middle">
+                        <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-secondary btn-sm fa fa-edit"></a>
+                        <a href="{% url 'delete-stock' stock.pk %}" class="btn btn-danger btn-sm fa fa-trash"></a>
+                    </td>          
+                </tr>
+            {% endfor %}                   
+        </tbody>
+
+    </table>  
+
+    <div class="align-middle">
+
+            {% if all_stock.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page=1">Awal</a>
+                <a class="btn btn-outline-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.previous_page_number }}">Sebelumnya</a>
+            {% endif %}
+
+            {% for num in all_stock.paginator.page_range %}
+                {% if all_stock.number == num %}
+                    <a class="btn btn-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ num }}">{{ num }}</a>
+                {% elif num > all_stock.number|add:'-3' and num < all_stock.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if all_stock.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.next_page_number }}">Selanjutnya</a>
+                <a class="btn btn-outline-info mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.paginator.num_pages }}">Akhir</a>
+            {% endif %}
+
+    </div>
+
+{% else %}
+
+        <tbody></tbody>   
+    </table>
+
+    <br><br><br><br><br><br><br><br>
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">Daftar stok produk masih kosong. Silahkan menambahkan stok produk baru.</div>
+
+{% endif %}
+
+{% endblock content %}

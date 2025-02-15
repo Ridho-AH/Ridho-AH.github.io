@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+{% block title %} Katalog Produk {% endblock title %}
+
+
+{% block content %}
+
+
+		
+
+		<section>
+			<div class="content" style="top: 100px;">
+				<div class="textBox" style="position: absolute; top: -30px; font-size: 50%;">
+					<h2>Katalog Produk</h2>
+				</div>
+				<ul class="product-list" >
+					{% for product in all_stock %}
+						<li class="product-item" style="text-align: center;">
+							<a href="{% url 'product-detail' product.pk %}">
+								<img src="{{ product.photo.url }}" alt="{{ product.name }}" width="200">
+							</a>
+									<div class="textBox">
+										<h2 style="font-size: 120%;">{{ product.name }}</h2>
+										{% if product.discount != 0 %}
+											<p style="font-size: 80%;">Harga: Rp. <s>{{ product.price }}</s> {{ product.get_actual_price }}</p>
+										{% else %}
+											<p style="font-size: 80%;">Harga: Rp. {{ product.price }}</p>
+										{% endif %}
+									</div>
+							<a href="{% url 'product-detail' product.pk %}" class="read-more-button">Selengkapnya</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+		
+		<section style="height: 100px">
+			<div class="align-middle">
+
+				{% if all_stock.has_previous %}
+					<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page=1">Awal</a>
+					<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.previous_page_number }}">Sebelumnya</a>
+				{% endif %}
+
+				{% for num in all_stock.paginator.page_range %}
+					{% if all_stock.number == num %}
+						<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ num }}">{{ num }}</a>
+					{% elif num > all_stock.number|add:'-3' and num < all_stock.number|add:'3' %}
+						<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ num }}">{{ num }}</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if all_stock.has_next %}
+					<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.next_page_number }}">Selanjutnya</a>
+					<a class="read-more-button mb-4" href="?search={{ search|default_if_none:'' }}&order_by={{ order_by|default_if_none:'' }}&direction={{ direction }}&page={{ all_stock.paginator.num_pages }}">Akhir</a>
+				{% endif %}
+
+			</div>
+		</section>
+		
+
+{% endblock content %}
